@@ -38,7 +38,8 @@ class PaymentController extends Controller
                 $result['message'] = 'Что то произошло не так';
                 break;
             }
-            $url = "https://icredit-crm.kz/api/webhock/payment/payments.php?iin=$iin&amount=$amount&paymentID=$paymentID";
+            $source = 'PayBox';
+            $url = "https://icredit-crm.kz/api/webhock/payment/payments.php?iin=$iin&amount=$amount&paymentID=$paymentID&source=$source";
             $response = file_get_contents($url);
 
             DB::commit();
