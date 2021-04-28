@@ -41,7 +41,7 @@ class PaymentController extends Controller
             $source = 'PayBox';
             $url = "https://icredit-crm.kz/api/webhock/payment/payments.php?iin=$iin&amount=$amount&paymentID=$paymentID&source=$source";
             $response = file_get_contents($url);
-            var_dump($response);
+
             DB::commit();
             $result['success'] = true;
         }while(false);
