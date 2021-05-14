@@ -52,8 +52,6 @@ class PaymentController extends Controller
         $command = $request->input('command');
         $txn_id = $request->input('txn_id');
         $account = $request->input('account');
-       // var_dump($account);
-        $result['success'] = false;
         do{
             if (!$command){
                 $result['osmp_txn_id'] = $txn_id;
@@ -67,31 +65,31 @@ class PaymentController extends Controller
                 $result['comment'] = '';
                 break;
             }
-           /* if (!$account){
+            if (!$account){
                 $result['osmp_txn_id'] = $txn_id;
                 $result['result'] = 5;
                 $result['comment'] = '';
                 break;
-            }*/
+            }
             if ($command != 'check'){
                 $result['osmp_txn_id'] = $txn_id;
                 $result['result'] = 5;
                 $result['comment'] = '';
                 break;
             }
-            /*$url = "https://icredit-crm.kz/api/webhock/check.php?iin=$account";
+            $url = "https://icredit-crm.kz/api/webhock/check.php?iin=$account";
             $response = file_get_contents($url);
             $response = json_decode($response,true);
-            */
-            //if ($response['success'] == true){
+
+            if ($response['success'] == true){
                 $result['osmp_txn_id'] = $txn_id;
                 $result['result'] = 0;
                 $result['comment'] = '';
-            /*}else{
+            }else{
                 $result['osmp_txn_id'] = $txn_id;
                 $result['result'] = 5;
                 $result['comment'] = '';
-            }*/
+            }
         }while(false);
         return response()->xml($result);
     }
