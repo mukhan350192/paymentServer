@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/payBox',[PaymentController::class,'payboxPayment']);
+Route::get('/qiwiCheck',[PaymentController::class,'qiwiCheck']);
