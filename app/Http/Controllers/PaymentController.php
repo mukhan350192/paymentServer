@@ -52,6 +52,7 @@ class PaymentController extends Controller
         $command = $request->input('command');
         $txn_id = $request->input('txn_id');
         $account = $request->input('account');
+       // var_dump($account);
         $result['success'] = false;
         do{
             if (!$command){
@@ -66,12 +67,12 @@ class PaymentController extends Controller
                 $result['comment'] = '';
                 break;
             }
-            if (!$account){
+           /* if (!$account){
                 $result['osmp_txn_id'] = $txn_id;
                 $result['result'] = 5;
                 $result['comment'] = '';
                 break;
-            }
+            }*/
             if ($command != 'check'){
                 $result['osmp_txn_id'] = $txn_id;
                 $result['result'] = 5;
