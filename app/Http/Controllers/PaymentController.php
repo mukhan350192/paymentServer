@@ -55,19 +55,27 @@ class PaymentController extends Controller
         $result['success'] = false;
         do{
             if (!$command){
-                $result['message'] = 'Не передан команда';
+                $result['osmp_txn_id'] = $txn_id;
+                $result['result'] = 5;
+                $result['comment'] = '';
                 break;
             }
             if (!$txn_id){
-                $result['message'] = 'Не передан номер платежа QIWI';
+                $result['osmp_txn_id'] = $txn_id;
+                $result['result'] = 5;
+                $result['comment'] = '';
                 break;
             }
             if (!$account){
-                $result['message'] = 'Не передан аккаунт';
+                $result['osmp_txn_id'] = $txn_id;
+                $result['result'] = 5;
+                $result['comment'] = '';
                 break;
             }
             if ($command != 'check'){
-                $result['message'] = 'Неизвестная команда';
+                $result['osmp_txn_id'] = $txn_id;
+                $result['result'] = 5;
+                $result['comment'] = '';
                 break;
             }
             $url = "https://icredit-crm.kz/api/webhock/check.php?iin=$account";
