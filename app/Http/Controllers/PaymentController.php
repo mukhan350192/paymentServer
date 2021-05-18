@@ -117,16 +117,18 @@ class PaymentController extends Controller
         $receipt = $request->input('receipt');
         $date = $request->input('date');
         $type = $request->input('type');
+        $result = '<?xml version="1.0" encoding="utf-8"?>';
+        $result .= '<response>';
         do {
             if (!$action) {
-                $result['code'] = 1;
-                $result['message'] = 'Не передан action';
+                $result .= '<code>1</code>';
+                $result .= '<message>Не передан action</message>';
                 break;
             }
             if ($action == 'check') {
                 if (!$number) {
-                    $result['code'] = 2;
-                    $result['message'] = 'Не передан аккаунт';
+                    $result .= '<code>2</code>';
+                    $result .= '<message>Не передан аккаунт</message>';
                     break;
                 }
                 $url = "https://icredit-crm.kz/api/webhock/check.php?iin=$number";
@@ -134,30 +136,30 @@ class PaymentController extends Controller
                 $response = json_decode($response, true);
 
                 if ($response['success'] == true) {
-                    $result['code'] = 0;
-                    $result['message'] = 'Абонент существует';
+                    $result .= '<code>0</code>';
+                    $result .= '<message>Абонент существует</message>';
                     break;
                 } else {
-                    $result['code'] = 2;
-                    $result['message'] = 'Не найден аккаунт';
+                    $result .= '<code>0</code>';
+                    $result .= '<message>Не найден аккаунт</message>';
                     break;
                 }
                 break;
             }
             if ($action == 'payment') {
                 if (!$number) {
-                    $result['code'] = 2;
-                    $result['message'] = 'Не передан аккаунт';
+                    $result .= '<code>2</code>';
+                    $result .= '<message>Не передан аккаунт</message>';
                     break;
                 }
                 if (!$amount) {
-                    $result['code'] = 3;
-                    $result['message'] = 'Не передан сумма';
+                    $result .= '<code>3</code>';
+                    $result .= '<message>Не передан сумма</message>';
                     break;
                 }
                 if (!$date) {
-                    $result['code'] = 5;
-                    $result['message'] = 'Не передан дата';
+                    $result .= '<code>5</code>';
+                    $result .= '<message>Не передан дата</message>';
                     break;
                 }
 
@@ -173,8 +175,8 @@ class PaymentController extends Controller
                     'updated_at' => Carbon::now(),
                 ]);
                 if (!$paymentID) {
-                    $result['code'] = 5;
-                    $result['message'] = 'Попробуйте позже';
+                    $result .= '<code>5</code>';
+                    $result .= '<message>Попробуйте позже</message>';
                     break;
                 }
                 $source = 'Kassa24';
@@ -182,12 +184,17 @@ class PaymentController extends Controller
                 $response = file_get_contents($url);
 
                 DB::commit();
-                $result['code'] = 0;
-                $result['authcode'] = 135;
-                $result['message'] = 'Платеж принят';
+                $result .= '<code>0</code>';
+                $result .= '<authcode>135</authcode>';
+                $result .= '<message>Платеж принят</message>';
+//                $result['code'] = 0;
+//                $result['authcode'] = 135;
+//                $result['message'] = 'Платеж принят';
             }
 
         } while (false);
+        $result .= '</response>';
         return response()->xml($result,200,['charset' => 'utf-8']);
+        //return $result;
     }
 }
