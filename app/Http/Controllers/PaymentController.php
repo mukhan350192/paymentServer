@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -207,5 +209,32 @@ class PaymentController extends Controller
         $result .= '</response>';
         return response()->xml($result,200,['charset' => 'utf-8']);
         //return $result;
+    }
+
+    public function testPayment(){
+        $payments = DB::table('payments')->where('payment_type', 3)->where('status', 0)->get();
+        foreach ($payments as $payment) {
+            $http = new Client();
+            try {
+                $response = $http->get('https://icredit-crm.kz/api/webhock/payment/payments.php', [
+                    'query' => [
+                        'iin' => $payment->iin,
+                        'amount' => $payment->amount,
+                        'paymentID' => $payment->id,
+                        'payment_date' => $payment->created_at,
+                        'source' => 'Kassa24',
+                    ],
+                ]);
+                var_dump($response);
+                $result = $response->getBody()->getContents();
+                $result = json_decode($result, true);
+                var_dump($result);
+                if ($result['success'] == true) {
+                    DB::table('payments')->where('id', $payment->id)->update(['status' => 1]);
+                }
+            } catch (BadResponseException $e) {
+                info($e);
+            }
+        }
     }
 }
