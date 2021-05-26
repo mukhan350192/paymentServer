@@ -50,7 +50,7 @@ class CheckPayment extends Command
                         'amount' => $payment->amount,
                         'paymentID' => $payment->id,
                         'payment_date' => $payment->created_at,
-                        'payment_type' => 'Kassa24',
+                        'source' => 'Kassa24',
                     ],
                 ]);
                 $result = $response->getBody()->getContents();
