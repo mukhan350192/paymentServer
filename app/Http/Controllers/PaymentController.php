@@ -137,6 +137,9 @@ class PaymentController extends Controller
 
                 if ($response['success'] == true) {
                     $result .= '<code>0</code>';
+                    $result .= '<fields>';
+                    $result .= '<field1 name="sum">'.$response['total'].'</field1>';
+                    $result .= '</fields>';
                     $result .= '<message>Абонент существует</message>';
                     break;
                 } else {
