@@ -85,7 +85,7 @@ class PaymentController extends Controller
                     $result .= '<result>0</result>';
                     $result .= '<fields>';
                     $result .= '<field1 name="sum">'.$response['total'].'</field1>';
-                    $result .= '<fields>';
+                    $result .= '</fields>';
                     $result .= '<comment></comment>';
                     break;
 
@@ -116,6 +116,7 @@ class PaymentController extends Controller
                 break;
             }
         } while (false);
+        $result .= '</response>';
         return response()->xml($result);
     }
 
