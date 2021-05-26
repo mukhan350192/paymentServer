@@ -182,7 +182,7 @@ class PaymentController extends Controller
                     'iin' => $number,
                     'amount' => $amount,
                     'payment_type' => 3,
-                    'status' => 0,
+                    'status' => 1,
                     'payment_date' => date('Y-m-d H:i:s', strtotime($date)),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
