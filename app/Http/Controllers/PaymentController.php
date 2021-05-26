@@ -192,9 +192,9 @@ class PaymentController extends Controller
                     $result .= '<message>Попробуйте позже</message>';
                     break;
                 }
-/*                $source = 'Kassa24';
+                $source = 'Kassa24';
                 $url = "https://icredit-crm.kz/api/webhock/payment/payments.php?iin=$number&amount=$amount&paymentID=$paymentID&source=$source";
-                $response = file_get_contents($url);*/
+                $response = file_get_contents($url);
 
                 DB::commit();
                 $result .= '<code>0</code>';
