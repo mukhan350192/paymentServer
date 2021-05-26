@@ -180,7 +180,7 @@ class PaymentController extends Controller
                     'iin' => $number,
                     'amount' => $amount,
                     'payment_type' => 3,
-                    'status' => 1,
+                    'status' => 0,
                     'payment_date' => date('Y-m-d H:i:s', strtotime($date)),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
@@ -190,9 +190,9 @@ class PaymentController extends Controller
                     $result .= '<message>Попробуйте позже</message>';
                     break;
                 }
-                $source = 'Kassa24';
+/*                $source = 'Kassa24';
                 $url = "https://icredit-crm.kz/api/webhock/payment/payments.php?iin=$number&amount=$amount&paymentID=$paymentID&source=$source";
-                $response = file_get_contents($url);
+                $response = file_get_contents($url);*/
 
                 DB::commit();
                 $result .= '<code>0</code>';
