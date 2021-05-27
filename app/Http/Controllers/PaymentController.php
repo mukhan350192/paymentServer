@@ -56,6 +56,7 @@ class PaymentController extends Controller
         $command = $request->input('command');
         $txn_id = $request->input('txn_id');
         $account = $request->input('account');
+        $sum = $request->input('sum');
         $result = '<?xml version="1.0" encoding="utf-8"?>';
         $result .= '<response>';
         do {
@@ -100,6 +101,13 @@ class PaymentController extends Controller
                 break;
             }
             if ($command == 'pay') {
+                if (!$sum){
+                    $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
+                    $result .= '<result>5</result>';
+                    $result .= '<comment></comment>';
+                    break;
+                    break;
+                }
                 $url = "https://icredit-crm.kz/api/webhock/check.php?iin=$account";
                 $response = file_get_contents($url);
                 $response = json_decode($response, true);
@@ -108,6 +116,24 @@ class PaymentController extends Controller
                     $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
                     $result .= '<result>0</result>';
                     $result .= '<comment></comment>';
+                    $date = date('Y-m-d');
+                    $paymentID = DB::table('payments')->insertGetId([
+                        'iin' => $account,
+                        'amount' => $sum,
+                        'payment_type' => 2,
+                        'status' => 1,
+                        'payment_date' => date('Y-m-d H:i:s', strtotime($date)),
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+                    if (!$paymentID) {
+                        $result .= '<code>5</code>';
+                        $result .= '<message>Попробуйте позже</message>';
+                        break;
+                    }
+                    $source = 'Qiwi';
+                    $url = "https://icredit-crm.kz/api/webhock/payment/payments.php?iin=$account&amount=$sum&paymentID=$paymentID&source=$source";
+                    $response = file_get_contents($url);
                     break;
                 } else {
                     $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
