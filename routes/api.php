@@ -22,3 +22,4 @@ Route::get('/payBox',[PaymentController::class,'payboxPayment']);
 Route::get('/qiwiCheck',[PaymentController::class,'qiwiCheck']);
 Route::get('/astanaPlat',[PaymentController::class,'astanaPlat']);
 Route::get('/testPayment',[PaymentController::class,'testPayment']);
+Route::get('/qiwiNash',[PaymentController::class,'qiwiNash']);
