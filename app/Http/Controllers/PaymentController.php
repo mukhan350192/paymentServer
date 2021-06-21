@@ -273,19 +273,19 @@ class PaymentController extends Controller
         $result .= '<response>';
         do {
             if (!$command) {
-                $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
+                $result .= '<osmp_txn_id>'.$txn_id.'</osmp_txn_id>';
                 $result .= '<result>5</result>';
                 $result .= '<comment></comment>';
                 break;
             }
             if (!$txn_id) {
-                $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
+                $result .= '<osmp_txn_id>'.$txn_id.'</osmp_txn_id>';
                 $result .= '<result>5</result>';
                 $result .= '<comment></comment>';
                 break;
             }
             if (!$account) {
-                $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
+                $result .= '<osmp_txn_id>'.$txn_id.'</osmp_txn_id>';
                 $result .= '<result>5</result>';
                 $result .= '<comment></comment>';
                 break;
@@ -296,7 +296,7 @@ class PaymentController extends Controller
                 $response = json_decode($response, true);
 
                 if ($response['success'] == true) {
-                    $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
+                    $result .= '<osmp_txn_id>'.$txn_id.'</osmp_txn_id>';
                     $result .= '<result>0</result>';
                     $result .= '<fields>';
                     $result .= '<field1 name="sum">'.$response['total'].'</field1>';
@@ -305,7 +305,7 @@ class PaymentController extends Controller
                     break;
 
                 } else {
-                    $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
+                    $result .= '<osmp_txn_id>'.$txn_id.'</osmp_txn_id>';
                     $result .= '<result>5</result>';
                     $result .= '<comment></comment>';
                     break;
@@ -314,7 +314,7 @@ class PaymentController extends Controller
             }
             if ($command == 'pay') {
                 if (!$sum){
-                    $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
+                    $result .= '<osmp_txn_id>'.$txn_id.'</osmp_txn_id>';
                     $result .= '<result>5</result>';
                     $result .= '<comment></comment>';
                     break;
@@ -325,7 +325,7 @@ class PaymentController extends Controller
                 $response = json_decode($response, true);
 
                 if ($response['success'] == true) {
-                    $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
+                    $result .= '<osmp_txn_id>'.$txn_id.'</osmp_txn_id>';
                     $result .= '<result>0</result>';
                     $result .= '<comment></comment>';
                     $date = date('Y-m-d');
@@ -348,7 +348,7 @@ class PaymentController extends Controller
                     $response = file_get_contents($url);
                     break;
                 } else {
-                    $result .= '<osmp_txt_id>'.$txn_id.'</osmp_txt_id>';
+                    $result .= '<osmp_txn_id>'.$txn_id.'</osmp_txn_id>';
                     $result .= '<result>5</result>';
                     $result .= '<comment></comment>';
                     break;
