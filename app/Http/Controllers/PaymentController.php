@@ -329,20 +329,30 @@ class PaymentController extends Controller
                     $result .= '<result>0</result>';
                     $result .= '<comment></comment>';
                     $date = date('Y-m-d');
-                    $paymentID = DB::table('payments')->insertGetId([
-                        'iin' => $account,
-                        'amount' => $sum,
-                        'payment_type' => 4,
-                        'status' => 1,
-                        'payment_date' => date('Y-m-d H:i:s', strtotime($date)),
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
-                    if (!$paymentID) {
-                        $result .= '<code>5</code>';
-                        $result .= '<message>Попробуйте позже</message>';
-                        break;
+                    $pay = DB::table('payments')
+                            ->where('payment_type',4)
+                            ->where('iin',$account)
+                            ->where('amount',$sum)
+                            ->where('payment_date',date('Y-m-d H:i:s', strtotime($date)))
+                            ->first();
+                    if (!$pay){
+                        $paymentID = DB::table('payments')->insertGetId([
+                            'iin' => $account,
+                            'amount' => $sum,
+                            'payment_type' => 4,
+                            'status' => 1,
+                            'payment_date' => date('Y-m-d H:i:s', strtotime($date)),
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now(),
+                        ]);
+                        if (!$paymentID) {
+                            $result .= '<code>5</code>';
+                            $result .= '<message>Попробуйте позже</message>';
+                            break;
+                        }
                     }
+
+
                     $source = 'Qiwi';
                     $url = "http://nash-crm.kz/api/webhock/payments.php?iin=$account&amount=$sum&paymentID=$paymentID&source=$source";
                     $response = file_get_contents($url);
