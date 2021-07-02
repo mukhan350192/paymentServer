@@ -350,12 +350,10 @@ class PaymentController extends Controller
                             $result .= '<message>Попробуйте позже</message>';
                             break;
                         }
+                        $source = 'Qiwi';
+                        $url = "http://nash-crm.kz/api/webhock/payments.php?iin=$account&amount=$sum&paymentID=$paymentID&source=$source";
+                        $response = file_get_contents($url);
                     }
-
-
-                    $source = 'Qiwi';
-                    $url = "http://nash-crm.kz/api/webhock/payments.php?iin=$account&amount=$sum&paymentID=$paymentID&source=$source";
-                    $response = file_get_contents($url);
                     break;
                 } else {
                     $result .= '<osmp_txn_id>'.$txn_id.'</osmp_txn_id>';
