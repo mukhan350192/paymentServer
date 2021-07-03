@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NashController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,6 @@ Route::get('/payBox',[PaymentController::class,'payboxPayment']);
 Route::get('/qiwiCheck',[PaymentController::class,'qiwiCheck']);
 Route::get('/astanaPlat',[PaymentController::class,'astanaPlat']);
 Route::get('/testPayment',[PaymentController::class,'testPayment']);
-Route::get('/qiwiNash',[PaymentController::class,'qiwiNash']);
+Route::get('/qiwiNash',[NashController::class,'qiwiNash']);
+Route::get('/astanaPlatNash',[NashController::class,'astanaPlatNash']);
+
