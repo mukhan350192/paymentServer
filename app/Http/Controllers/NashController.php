@@ -35,7 +35,8 @@ class NashController extends Controller
                 break;
             }
             if ($command == 'check') {
-                $url = "http://nash-crm.kz/api/webhock/check.php?iin=$account";
+                $url = "https://nash-crm.kz/api/anticollect/check.php?iin=$account";
+
                 $response = file_get_contents($url);
                 $response = json_decode($response, true);
 
@@ -64,7 +65,7 @@ class NashController extends Controller
                     break;
                     break;
                 }
-                $url = "http://nash-crm.kz/api/webhock/check.php?iin=$account";
+                $url = "https://nash-crm.kz/api/anticollect/check.php?iin=$account";
                 $response = file_get_contents($url);
                 $response = json_decode($response, true);
 
@@ -95,7 +96,7 @@ class NashController extends Controller
                             break;
                         }
                         $source = 'Qiwi';
-                        $url = "http://nash-crm.kz/api/webhock/payments.php?iin=$account&amount=$sum&paymentID=$paymentID&source=$source";
+                        $url = "https://nash-crm.kz/api/webhock/payments.php?iin=$account&amount=$sum&paymentID=$paymentID&source=$source";
                         $response = file_get_contents($url);
                     }
                     break;
@@ -133,7 +134,7 @@ class NashController extends Controller
                     $result .= '<message>Не передан аккаунт</message>';
                     break;
                 }
-                $url = "http://nash-crm.kz/api/webhock/check.php?iin=$number";
+                $url = "https://nash-crm.kz/api/anticollect/check.php?iin=$number";
                 $response = file_get_contents($url);
                 $response = json_decode($response, true);
 
@@ -187,7 +188,7 @@ class NashController extends Controller
                         break;
                     }
                     $source = 'Kassa24';
-                    $url = "http://nash-crm.kz/api/webhock/payments.php?iin=$number&amount=$amount&paymentID=$paymentID&source=$source";
+                    $url = "https://nash-crm.kz/api/webhock/payments.php?iin=$number&amount=$amount&paymentID=$paymentID&source=$source";
                     $response = file_get_contents($url);
 
                     DB::commit();
