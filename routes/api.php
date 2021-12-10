@@ -24,5 +24,6 @@ Route::get('/qiwiCheck',[PaymentController::class,'qiwiCheck']);
 Route::get('/astanaPlat',[PaymentController::class,'astanaPlat']);
 Route::get('/testPayment',[PaymentController::class,'testPayment']);
 Route::get('/qiwiNash',[NashController::class,'qiwiNash']);
+Route::get('/payBoxNash',[NashController::class,'payBoxNash']);
 Route::get('/astanaPlatNash',[NashController::class,'astanaPlatNash']);
 

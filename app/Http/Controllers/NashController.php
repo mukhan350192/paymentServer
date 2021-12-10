@@ -206,4 +206,44 @@ class NashController extends Controller
         $result .= '</response>';
         return response()->xml($result,200,['charset' => 'utf-8']);
     }
+
+    public function payBoxNash(Request $request){
+        $iin = $request->input('iin');
+        $amount = abs($request->input('amount'));
+        $phone = $request->input('phone');
+        $result['success'] = false;
+        do {
+            if (!$iin) {
+                $result['message'] = 'Не передан иин';
+                break;
+            }
+            if (!$amount) {
+                $result['message'] = 'Не передан сумма';
+                break;
+            }
+            DB::beginTransaction();
+            $paymentID = DB::table('payments')->insertGetId([
+                'iin' => $iin,
+                'amount' => $amount,
+                'payment_type' => 6,
+                'status' => 1,
+                'phone' => $phone,
+                'payment_date' => date('Y-m-d H:i:s'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+            if (!$paymentID) {
+                DB::rollBack();
+                $result['message'] = 'Что то произошло не так';
+                break;
+            }
+            $source = 'PayBox';
+            $url = "https://nash-crm.kz/api/webhock/payments.php?iin=$iin&amount=$amount&paymentID=$paymentID&source=$source";
+            $response = file_get_contents($url);
+
+            DB::commit();
+            $result['success'] = true;
+        } while (false);
+        return response()->json($result);
+    }
 }
