@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 class NashController extends Controller
 {
@@ -170,7 +171,7 @@ class NashController extends Controller
                 $pay = DB::table('payments')
                     ->where('iin',$number)
                     ->where('amount',$amount)
-                    ->where('type',5)
+                    ->where('payment_type',5)
                     ->first();
                 if (!$pay){
                     $paymentID = DB::table('payments')->insertGetId([
